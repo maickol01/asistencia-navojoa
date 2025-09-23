@@ -96,7 +96,8 @@ export default function Home() {
       } else {
         setMessage("❌ Error al confirmar asistencia. Intente nuevamente.");
       }
-    } finally {
+    }
+    finally {
       setIsLoading(false);
     }
   };
@@ -111,11 +112,11 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-start flex-grow p-4 pt-32">
+      <main className="flex flex-col items-center justify-start flex-grow p-4 pt-16">
         <div className="bg-white shadow-md px-10 py-16 w-full max-w-lg rounded-lg">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <img src="/logo.png" alt="Navojoa Logo" className="w-full" />
+            <img src="/folleto.jpg" alt="Folleto del programa de alumbrado público" className="w-full" />
           </div>
 
           {/* Button */}
