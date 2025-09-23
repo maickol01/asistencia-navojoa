@@ -47,8 +47,8 @@ export default function Home() {
 
       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-      const targetLatitude = 29.0914304;
-      const targetLongitude = -110.9884928;
+      const targetLatitude = 27.069833;
+      const targetLongitude = -109.446472;
       const maxDistanceInMeters = 70;
 
       const distance = getDistanceFromLatLonInMeters(latitude, longitude, targetLatitude, targetLongitude);
