@@ -47,13 +47,18 @@ export default function Home() {
 
       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-      const targetLatitude = 27.069833;
-      const targetLongitude = -109.446472;
+      const locations = [
+        { latitude: 27.069833, longitude: -109.446472 },
+        { latitude: 27.062917, longitude: -109.417139 }
+      ];
       const maxDistanceInMeters = 70;
 
-      const distance = getDistanceFromLatLonInMeters(latitude, longitude, targetLatitude, targetLongitude);
+      const isWithinRange = locations.some(location => {
+        const distance = getDistanceFromLatLonInMeters(latitude, longitude, location.latitude, location.longitude);
+        return distance <= maxDistanceInMeters;
+      });
 
-      if (distance <= maxDistanceInMeters) {
+      if (isWithinRange) {
         // Simulate API call to register attendance
         await new Promise(resolve => setTimeout(resolve, 1500));
 
@@ -74,7 +79,7 @@ export default function Home() {
 
       } else {
         setIsSuccess(false);
-        setMessage(`❌ No está en la ubicación correcta. Se encuentra a ${distance.toFixed(0)} metros de distancia.`);
+        setMessage(`❌ No se encuentra en ninguna de las ubicaciones permitidas.`);
       }
 
     } catch (error) {
@@ -96,8 +101,7 @@ export default function Home() {
       } else {
         setMessage("❌ Error al confirmar asistencia. Intente nuevamente.");
       }
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
   };
