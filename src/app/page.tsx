@@ -2,7 +2,22 @@
 
 import { useState } from "react";
 import { LocationIcon } from "@/components/icons/LocationIcon";
-import { NavojoaLogo } from "@/components/NavojoaLogo";
+
+const getDistanceFromLatLonInMeters = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+  const R = 6371e3; // metres
+  const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+  const φ2 = lat2 * Math.PI/180;
+  const Δφ = (lat2-lat1) * Math.PI/180;
+  const Δλ = (lon2-lon1) * Math.PI/180;
+
+  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+  const d = R * c; // in metres
+  return d;
+}
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +45,37 @@ export default function Home() {
 
       const { latitude, longitude } = position.coords;
 
-      // Simulate API call to register attendance
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-      setIsSuccess(true);
-      setMessage(`✓ Asistencia confirmada en: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+      const targetLatitude = 29.0914304;
+      const targetLongitude = -110.9884928;
+      const maxDistanceInMeters = 70;
+
+      const distance = getDistanceFromLatLonInMeters(latitude, longitude, targetLatitude, targetLongitude);
+
+      if (distance <= maxDistanceInMeters) {
+        // Simulate API call to register attendance
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        setIsSuccess(true);
+        setMessage(`✓ Asistencia confirmada. Redirigiendo al formulario...`);
+
+        // Generate token
+        const token = Date.now().toString(36) + Math.random().toString(36).substring(2);
+
+        // Format coordinates
+        const coordinates = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+        // Construct URL
+        const formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSccmdHm9GGU6lKjLQhRV6yH99kLVrJ40FJ8enI2tU84ysQD0A/viewform?usp=pp_url&entry.386190676=${token}&entry.481357669=${encodeURIComponent(coordinates)}&pageHistory=0,1`;
+
+        // Redirect
+        window.location.href = formUrl;
+
+      } else {
+        setIsSuccess(false);
+        setMessage(`❌ No está en la ubicación correcta. Se encuentra a ${distance.toFixed(0)} metros de distancia.`);
+      }
 
     } catch (error) {
       setIsSuccess(false);
@@ -61,27 +102,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfb]">
+    <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
       {/* Header */}
       <header className="bg-[#642515] h-14 flex items-center justify-center">
-        <h1 className="text-white text-center font-medium text-lg">
+        <h1 className="font-Source Sans Pro text-white text-center font-medium text-lg italic">
           Confirmar ubicación de asistencia
         </h1>
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center px-6 py-8">
-        <div className="bg-white shadow-lg p-8 w-full max-w-sm rounded-[14px] my-[30px]">
+      <main className="flex flex-col items-center justify-center flex-grow p-6">
+        <div className="bg-white shadow-md px-10 py-5 w-full max-w-lg rounded-lg">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <NavojoaLogo />
+            <img src="/logo.png" alt="Navojoa Logo" className="w-[28.8rem]" />
           </div>
 
           {/* Button */}
           <button
             onClick={handleLocationConfirmation}
             disabled={isLoading}
-            className={`w-full py-2.5 px-4 rounded-full flex items-center justify-center gap-2 font-medium text-sm transition-all duration-200 ${
+            className={`w-full py-1.5 px-4 rounded-full flex items-center justify-center gap-2 font-medium text-sm transition-all duration-200 ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : isSuccess
