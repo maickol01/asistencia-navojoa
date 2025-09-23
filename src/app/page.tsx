@@ -111,11 +111,11 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow p-6">
-        <div className="bg-white shadow-md px-10 py-10 w-full max-w-lg rounded-lg">
+      <main className="flex flex-col items-center justify-start flex-grow p-4 pt-32">
+        <div className="bg-white shadow-md px-10 py-16 w-full max-w-lg rounded-lg">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <img src="/logo.png" alt="Navojoa Logo" className="w-[28.8rem]" />
+            <img src="/logo.png" alt="Navojoa Logo" className="w-full" />
           </div>
 
           {/* Button */}
