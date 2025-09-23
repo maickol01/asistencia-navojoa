@@ -112,7 +112,7 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center flex-grow p-6">
-        <div className="bg-white shadow-md px-10 py-5 w-full max-w-lg rounded-lg">
+        <div className="bg-white shadow-md px-10 py-10 w-full max-w-lg rounded-lg">
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <img src="/logo.png" alt="Navojoa Logo" className="w-[28.8rem]" />
