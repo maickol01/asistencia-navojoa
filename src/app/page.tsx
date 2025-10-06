@@ -87,7 +87,12 @@ export default function Home() {
       if (error instanceof GeolocationPositionError) {
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            setMessage("❌ Acceso a ubicación denegado. Active los permisos de ubicación para su navegador en la configuración de su dispositivo.");
+            const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+            if (isIOS) {
+              setMessage(`❌ Acceso a ubicación denegado.\n\nPara habilitar la ubicación en iPhone/iPad:\n1. Ve a Configuración > Privacidad y seguridad.\n2. Toca en Localización.\n3. Busca "Sitios web de Safari" en la lista.\n4. Asegúrate que esté en "Preguntar" o "Permitir".\n\nFinalmente, recarga esta página.`);
+            } else {
+              setMessage("❌ Acceso a ubicación denegado. Active los permisos de ubicación para su navegador en la configuración de su dispositivo.");
+            }
             break;
           case error.POSITION_UNAVAILABLE:
             setMessage("❌ Ubicación no disponible. Verifique su conexión.");
@@ -150,7 +155,7 @@ export default function Home() {
 
           {/* Message Display */}
           {message && (
-            <div className={`mt-4 p-3 rounded-lg text-sm text-center ${
+            <div className={`mt-4 p-3 rounded-lg text-sm text-left whitespace-pre-line ${
               isSuccess
                 ? "bg-green-100 text-green-800 border border-green-200"
                 : "bg-red-100 text-red-800 border border-red-200"
