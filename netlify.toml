@@ -7,8 +7,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Permissions-Policy = "geolocation=(self)"
