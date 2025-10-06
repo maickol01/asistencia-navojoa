@@ -9,6 +9,10 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'geolocation=(self)',
           },
+          {
+            key: 'Feature-Policy',
+            value: "geolocation 'self'",
+          },
         ],
       },
     ];
