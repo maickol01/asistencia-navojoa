@@ -38,8 +38,8 @@ export default function Home() {
 
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 60000
+          timeout: 20000,
+          maximumAge: 0
         });
       });
 
@@ -87,7 +87,7 @@ export default function Home() {
       if (error instanceof GeolocationPositionError) {
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            setMessage("❌ Acceso a ubicación denegado. Active los permisos de ubicación.");
+            setMessage("❌ Acceso a ubicación denegado. Active los permisos de ubicación para su navegador en la configuración de su dispositivo.");
             break;
           case error.POSITION_UNAVAILABLE:
             setMessage("❌ Ubicación no disponible. Verifique su conexión.");
