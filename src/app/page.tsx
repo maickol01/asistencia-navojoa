@@ -48,14 +48,13 @@ export default function Home() {
       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
       const locations = [
-        { latitude: 27.069833, longitude: -109.446472 },
-        { latitude: 27.062917, longitude: -109.417139 }
+        { latitude: 27.087336969729364, longitude: -109.45016973957432, maxDistance: 800 },
+        { latitude: 27.069826549384914, longitude: -109.44629243581083, maxDistance: 70 }
       ];
-      const maxDistanceInMeters = 70;
 
       const isWithinRange = locations.some(location => {
         const distance = getDistanceFromLatLonInMeters(latitude, longitude, location.latitude, location.longitude);
-        return distance <= maxDistanceInMeters;
+        return distance <= location.maxDistance;
       });
 
       if (isWithinRange) {
